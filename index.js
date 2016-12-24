@@ -58,9 +58,6 @@ map.on('load', function() {
         closeOnClick: false
     });
     var geolocate = new mapboxgl.GeolocateControl({
-        positionOptions: {
-            enableHighAccuracy: true
-        },
         watchPosition: true
     });
 
