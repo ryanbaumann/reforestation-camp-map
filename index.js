@@ -6,9 +6,19 @@ var geojsonExt = require('geojson-extent')
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
-var layerList = ['nordic-nightski', 'nordic-maples', 'nordic-oaks',
-    'nordic-birches'
+var refo_nordic_layerList = ['refo-nordic-nightski', 'refo-nordic-maples', 'refo-nordic-oaks',
+    'refo-nordic-birches', 'refo-nordic-labels', 'refo-features-label'
 ];
+
+var refo_mtb_layerList = ['refo-mtb-redloop', 'refo-mtb-labels']
+
+var barkhausen_nordic_layerList = ['bark-features-label', 'bark-nordic-labels', 'bark-nordic-shores',
+    'bark-features-poly'
+]
+
+var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList)
+
+var current = 1
 
 var userLocation = {
     "type": "FeatureCollection",
@@ -22,11 +32,16 @@ var userLocation = {
     }]
 }
 
+var centers = {
+	'Barkhausen' : [-88.0345, 44.5985],
+	'Reforestation Camp' : [-88.0813, 44.6667]
+}
+
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/rsbaumann/ciwyfl6jk001j2qsdtfxkr1ny',
-    center: [-88.078, 44.667],
-    zoom: 11.15,
+    center: centers["Reforestation Camp"],
+    zoom: 13,
     hash: true
 });
 
@@ -45,43 +60,24 @@ function updateUserLocation(map, sourceName, geojson) {
             "source": sourceName,
             "paint": {
                 "circle-color": 'orange',
-                "circle-stroke-width" : 2,
-                "circle-stroke-color" : 'black',
-                "circle-radius": 10
+                "circle-stroke-width": 2,
+                "circle-stroke-color": 'black',
+                "circle-radius": {
+                	stops: [[10, 3], [10, 10]]
+                }
             }
         })
     } else {
         map.getSource(sourceName).setData(userLocation)
     }
+
+    map.setZoom(14)
+
+    var timer = window.setInterval(blinkUserIcon(), 100)
 }
 
-function addToggle() {
-        // Toggle UI 1
-    var toggleContainer = document.createElement('div');
-    toggleContainer.classList = 'pin-topright pad1';
-
-    var toggle = document.createElement('div');
-    toggle.classList = 'rounded-toggle dark inline';
-
-    [{
-        label: 'Trail',
-        id: 'mapbox://styles/rsbaumann/ciwyfl6jk001j2qsdtfxkr1ny'
-    }, {
-        label: 'Satellite',
-        id: 'mapbox://styles/mapbox/satellite-streets-v9'
-    }].forEach(function(style, i) {
-        var input = document.createElement('input');
-        input.id = i;
-        input.type = 'radio';
-        input.name = 'toggle';
-        input.value = style.id;
-        if (i === 0) input.checked = true;
-        var label = document.createElement('label');
-        label.htmlFor = i;
-        label.textContent = style.label;
-        toggle.appendChild(input);
-        toggle.appendChild(label);
-    });
+function addToggleOne() {
+    var toggle = document.getElementById('mapToggle');
 
     toggle.addEventListener('change', function(e) {
         if (map.getLayoutProperty('mapbox-mapbox-satellite', 'visibility') === 'visible') {
@@ -90,13 +86,60 @@ function addToggle() {
             map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'visible')
         }
     });
+}
 
-    toggleContainer.appendChild(toggle);
-map.getContainer().appendChild(toggleContainer);
+function addToggleTwo() {
+
+    var refoButton = document.getElementById('refo');
+    var barkButton = document.getElementById('bark');
+    refoButton.addEventListener('click', function() {
+        map.setCenter(centers["Reforestation Camp"]);
+        map.setZoom(14)
+    });
+
+    barkButton.addEventListener('click', function() {
+        map.setCenter(centers["Barkhausen"])
+        map.setZoom(14)
+    });
+}
+
+function addToggleThree() {
+
+    var nordicButton = document.getElementById('nordic');
+    var mtbButton = document.getElementById('mtb');
+
+    function changeLayersVisiblity(layers, visibility) {
+    	for (var i=0; i < layers.length; i++) {
+    		map.setLayoutProperty(layers[i], 'visibility', visibility)
+    	}
+    }
+
+    nordicButton.addEventListener('click', function() {
+        changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'visible');
+        changeLayersVisiblity(refo_mtb_layerList, 'none')
+    });
+
+    mtbButton.addEventListener('click', function() {
+        changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'none');
+        changeLayersVisiblity(refo_mtb_layerList, 'visible')
+    });
+}
+
+function blinkUserIcon() {
+
+    if (current > 0.1) {
+        var newval = (current - 0.1)
+    } else {
+        var newval = (current + 0.1)
+    }
+    console.log(newval)
+    map.setPaintProperty('user-location-point', 'circle-opacity', newval)
 }
 
 map.on('load', function() {
-    addToggle()
+    addToggleOne();
+    addToggleTwo();
+    addToggleThree();
 
     //var directions = require('./directions.js');
 
@@ -105,6 +148,11 @@ map.on('load', function() {
         closeOnClick: false
     });
     var geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        },
         watchPosition: true
     });
 
@@ -131,8 +179,8 @@ map.on('load', function() {
         var feature = features[0];
 
         popup.setLngLat(map.unproject(e.point))
-            .setHTML('<li> Trail: ' + feature.properties.name + '</li>' + 
-                     '<li> Distance: ' + feature.properties.distance + '</li>')
+            .setHTML('<li> Trail: ' + feature.properties.name + '</li>' +
+                '<li> Distance: ' + feature.properties.distance + '</li>')
             .addTo(map);
     });
 
@@ -144,7 +192,7 @@ map.on('load', function() {
         if (!features.length) {
             popup.remove();
             return;
-        }   
+        }
         var feat = features[0];
         var coords = feat.geometry.coordinates.forEach()
         var ls = turf.lineString(coords);
