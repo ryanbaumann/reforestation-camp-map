@@ -1,5 +1,8 @@
 'use strict'
 var mapboxgl = require('mapbox-gl')
+var turf = require('@turf/turf')
+var geojsonExt = require('geojson-extent')
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
@@ -41,7 +44,9 @@ function updateUserLocation(map, sourceName, geojson) {
             "type": 'circle',
             "source": sourceName,
             "paint": {
-                "circle-color": 'black',
+                "circle-color": 'orange',
+                "circle-stroke-width" : 2,
+                "circle-stroke-color" : 'black',
                 "circle-radius": 10
             }
         })
@@ -50,7 +55,49 @@ function updateUserLocation(map, sourceName, geojson) {
     }
 }
 
+function addToggle() {
+        // Toggle UI 1
+    var toggleContainer = document.createElement('div');
+    toggleContainer.classList = 'pin-topright pad1';
+
+    var toggle = document.createElement('div');
+    toggle.classList = 'rounded-toggle dark inline';
+
+    [{
+        label: 'Trail',
+        id: 'mapbox://styles/rsbaumann/ciwyfl6jk001j2qsdtfxkr1ny'
+    }, {
+        label: 'Satellite',
+        id: 'mapbox://styles/mapbox/satellite-streets-v9'
+    }].forEach(function(style, i) {
+        var input = document.createElement('input');
+        input.id = i;
+        input.type = 'radio';
+        input.name = 'toggle';
+        input.value = style.id;
+        if (i === 0) input.checked = true;
+        var label = document.createElement('label');
+        label.htmlFor = i;
+        label.textContent = style.label;
+        toggle.appendChild(input);
+        toggle.appendChild(label);
+    });
+
+    toggle.addEventListener('change', function(e) {
+        if (map.getLayoutProperty('mapbox-mapbox-satellite', 'visibility') === 'visible') {
+            map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'none')
+        } else {
+            map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'visible')
+        }
+    });
+
+    toggleContainer.appendChild(toggle);
+map.getContainer().appendChild(toggleContainer);
+}
+
 map.on('load', function() {
+    addToggle()
+
     //var directions = require('./directions.js');
 
     var popup = new mapboxgl.Popup({
@@ -61,7 +108,7 @@ map.on('load', function() {
         watchPosition: true
     });
 
-    map.addControl(geolocate, 'top-right')
+    map.addControl(geolocate, 'top-left')
 
     map.addControl(new mapboxgl.ScaleControl({
         maxWidth: 200,
@@ -84,15 +131,31 @@ map.on('load', function() {
         var feature = features[0];
 
         popup.setLngLat(map.unproject(e.point))
-            .setHTML(feature.properties.name)
+            .setHTML('<li> Trail: ' + feature.properties.name + '</li>' + 
+                     '<li> Distance: ' + feature.properties.distance + '</li>')
             .addTo(map);
+    });
+
+    map.on('click', function(e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: layerList });
+
+        map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+        if (!features.length) {
+            popup.remove();
+            return;
+        }   
+        var feat = features[0];
+        var coords = feat.geometry.coordinates.forEach()
+        var ls = turf.lineString(coords);
+        console.log(ls)
+        var bbox = geojsonExt(ls);
+        map.fitBounds(bbox);
     });
 
     geolocate.on('geolocate', function(e) {
         var user_point = [e.coords.longitude, e.coords.latitude]
-        console.log(user_point);
         userLocation.features[0].geometry.coordinates = user_point;
-        console.log(userLocation);
         updateUserLocation(map, 'user-location', userLocation);
     });
 });

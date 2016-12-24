@@ -1,7 +1,7 @@
 /* Dark popup */
 
 .mapboxgl-popup-content {
-    color: #fff;
+    color: black;
     margin-left: 5px;
     margin-top: 2px;
     margin-bottom: 2px;
