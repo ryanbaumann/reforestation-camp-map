@@ -1,19 +1,24 @@
 'use strict'
-var mapboxgl = require('mapbox-gl')
-var turf = require('@turf/turf')
-var geojsonExt = require('geojson-extent')
+var mapboxgl = require('mapbox-gl');
+var turf = require('@turf/turf');
+var geojsonExt = require('geojson-extent');
+var $ = require('jQuery');
 
+// disable scroll if it's embedded in a blog post
+if (window.location.search.indexOf('embed') !== -1) {
+    map.scrollZoom.disable();
+};
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
 var refo_nordic_layerList = ['refo-nordic-nightski', 'refo-nordic-maples', 'refo-nordic-oaks',
-    'refo-nordic-birches', 'refo-nordic-labels', 'refo-features-label'
+    'refo-nordic-birches', 'refo-nordic-labels', 'refo-features-label', 'refo-boundary-poly'
 ];
 
-var refo_mtb_layerList = ['refo-mtb-redloop', 'refo-mtb-labels']
+var refo_mtb_layerList = ['refo-mtb-redloop', 'refo-mtb-labels', 'refo-features-label', 'refo-mtb-snowbike', 'refo-boundary-poly']
 
 var barkhausen_nordic_layerList = ['bark-features-label', 'bark-nordic-labels', 'bark-nordic-shores',
-    'bark-features-poly'
+    'bark-features-poly', 'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek', 'bark-ponds-poly'
 ]
 
 var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList)
@@ -33,13 +38,13 @@ var userLocation = {
 }
 
 var centers = {
-	'Barkhausen' : [-88.0345, 44.5985],
-	'Reforestation Camp' : [-88.0813, 44.6667]
+    'Barkhausen': [-88.0345, 44.5985],
+    'Reforestation Camp': [-88.0813, 44.6667]
 }
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/rsbaumann/ciwyfl6jk001j2qsdtfxkr1ny',
+    style: 'mapbox://styles/rsbaumann/ciwyfl6jk001j2qsdtfxkr1ny?optimize=true',
     center: centers["Reforestation Camp"],
     zoom: 13,
     hash: true
@@ -63,7 +68,10 @@ function updateUserLocation(map, sourceName, geojson) {
                 "circle-stroke-width": 2,
                 "circle-stroke-color": 'black',
                 "circle-radius": {
-                	stops: [[10, 3], [10, 10]]
+                    stops: [
+                        [8, 3],
+                        [16, 10]
+                    ]
                 }
             }
         })
@@ -71,9 +79,29 @@ function updateUserLocation(map, sourceName, geojson) {
         map.getSource(sourceName).setData(userLocation)
     }
 
-    map.setZoom(14)
+    map.setZoom(13)
 
-    var timer = window.setInterval(blinkUserIcon(), 100)
+    // Annimate the icon to show user location is live
+    var move_negative = true;
+
+    window.setInterval(function() {
+        // check the increment direction
+        if (current <= 0.2 && move_negative) {
+            move_negative = false;
+        } else if (current >= 0.9 && !move_negative) {
+            move_negative = true;
+        }
+
+        if (current > 0.2 && move_negative) {
+            var newval = (current - 0.1)
+        }
+
+        if (current < 0.9 && !move_negative) {
+            var newval = (current + 0.1)
+        }
+        current = newval
+        map.setPaintProperty('user-location-point', 'circle-opacity', newval)
+    }, 150)
 }
 
 function addToggleOne() {
@@ -109,9 +137,9 @@ function addToggleThree() {
     var mtbButton = document.getElementById('mtb');
 
     function changeLayersVisiblity(layers, visibility) {
-    	for (var i=0; i < layers.length; i++) {
-    		map.setLayoutProperty(layers[i], 'visibility', visibility)
-    	}
+        for (var i = 0; i < layers.length; i++) {
+            map.setLayoutProperty(layers[i], 'visibility', visibility)
+        }
     }
 
     nordicButton.addEventListener('click', function() {
@@ -123,17 +151,6 @@ function addToggleThree() {
         changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'none');
         changeLayersVisiblity(refo_mtb_layerList, 'visible')
     });
-}
-
-function blinkUserIcon() {
-
-    if (current > 0.1) {
-        var newval = (current - 0.1)
-    } else {
-        var newval = (current + 0.1)
-    }
-    console.log(newval)
-    map.setPaintProperty('user-location-point', 'circle-opacity', newval)
 }
 
 map.on('load', function() {
@@ -155,16 +172,15 @@ map.on('load', function() {
         },
         watchPosition: true
     });
-
-    map.addControl(geolocate, 'top-left')
-
-    map.addControl(new mapboxgl.ScaleControl({
-        maxWidth: 200,
+    var scale = new mapboxgl.ScaleControl({
+        maxWidth: 150,
         unit: 'imperial'
-    }));
-
+    })
     var nav = new mapboxgl.NavigationControl();
+
+    map.addControl(scale, 'bottom-left');
     map.addControl(nav, 'top-left');
+    map.addControl(geolocate, 'top-right')
 
     map.on('mousemove', function(e) {
         var features = map.queryRenderedFeatures(e.point, { layers: layerList });
@@ -194,9 +210,8 @@ map.on('load', function() {
             return;
         }
         var feat = features[0];
-        var coords = feat.geometry.coordinates.forEach()
+        var coords = feat.geometry.coordinates
         var ls = turf.lineString(coords);
-        console.log(ls)
         var bbox = geojsonExt(ls);
         map.fitBounds(bbox);
     });
@@ -205,5 +220,30 @@ map.on('load', function() {
         var user_point = [e.coords.longitude, e.coords.latitude]
         userLocation.features[0].geometry.coordinates = user_point;
         updateUserLocation(map, 'user-location', userLocation);
+    });
+
+    // mobile menu toggle
+    $(".show-more").click(function() {
+        $(".session").toggle();
+        $("#title").show();
+        $(".session.style").hide();
+
+        // toggle show-less and show-more
+        $(".mobile-btn").toggle();
+
+        $("#sidebar").css('height', '50vh');
+        $("#map").css('height', 'calc(100% - 50vh');
+        $("#map").css('top', '50vh');
+    });
+    $(".show-less").click(function() {
+        $(".session").toggle();
+        $("#title").show();
+        $(".session.style").hide();
+
+        // toggle show-less and show-more
+        $(".mobile-btn").toggle();
+        $("#sidebar").css('height', '30vh');
+        $("#map").css('height', 'calc(100% - 30vh');
+        $("#map").css('top', '30vh');
     });
 });
