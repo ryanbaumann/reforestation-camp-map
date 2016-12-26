@@ -72,7 +72,6 @@ var nav = new mapboxgl.NavigationControl();
 
 map.addControl(scale, 'bottom-left');
 map.addControl(nav, 'top-left');
-map.addControl(geolocate, 'top-right');
 
 
 function updateUserLocation(map, sourceName, geojson) {
@@ -180,7 +179,7 @@ map.on('load', function() {
     addToggleOne();
     addToggleTwo();
     addToggleThree();
-
+    map.addControl(geolocate, 'top-right');
     //var directions = require('./directions.js');
 
     map.on('mousemove', function(e) {
