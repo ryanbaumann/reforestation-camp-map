@@ -5,10 +5,7 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link rel="stylesheet" href="css/site.css" media="none" onload="if(media!='all')media='all'">
-    <noscript>
-        <link rel="stylesheet" href="site.css">
-    </noscript>
+    <link rel="stylesheet" href="css/site-min.css">
     <style>
     body {
         margin: 0;
@@ -28,9 +25,9 @@
         #map {
             left: 0;
             bottom: 0;
-            top: 30vh;
+            top: 16vh;
             width: 100%;
-            height: calc(100% - 30vh);
+            height: calc(100% - 16vh);
         }
     }
     </style>
@@ -38,45 +35,52 @@
 
 <body>
     <div id='map'>
-        <a class='pin-bottomleft z1 pad1' target='_blank' href='https://www.mapbox.com/'>
-            <img src='data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjU5LjEiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCA1OS4xIDE4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1OS4xMTkgMTgiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGQ9Ik0xLjQgMEMwLjYgMC4xIDAgMC44IDAgMS41TDAgMTMuNEMwIDE0LjIgMC43IDE0LjggMS41IDE0LjhMMy4zIDE0LjhDNCAxNC44IDQuNyAxNC4yIDQuOCAxMy40TDQuOCA5LjEgNS41IDEwLjNDNiAxMS4yIDcuNSAxMS4yIDggMTAuM0w4LjggOS4xIDguOCAxMy40QzguOCAxNC4xIDkuNSAxNC44IDEwLjIgMTQuOEwxMiAxNC44QzEyLjggMTQuOCAxMy41IDE0LjIgMTMuNSAxMy40TDEzLjUgMTMuMkMxNC41IDE0LjMgMTUuOSAxNSAxNy42IDE1TDIxLjcgMTUgMjEuNyAxNi41QzIxLjcgMTcuMyAyMi4zIDE4IDIzLjEgMThMMjQuOSAxOEMyNS43IDE4IDI2LjQgMTcuMyAyNi40IDE2LjVMMjYuNCAxNUMyOC4xIDE1IDI5LjUgMTQuNCAzMC41IDEzLjNMMzAuNSAxMy41QzMwLjUgMTMuOSAzMC43IDE0LjMgMzEgMTQuNiAzMS4zIDE0LjkgMzEuNiAxNSAzMiAxNUwzNS4zIDE1QzM3LjQgMTUgMzkuMiAxNCA0MC4zIDEyLjMgNDEuMyAxMy45IDQzLjEgMTUgNDUuMSAxNSA0Ni4yIDE1IDQ3LjEgMTQuOCA0Ny45IDE0LjMgNDguMiAxNC42IDQ4LjcgMTQuOCA0OS4xIDE0LjhMNTEuMyAxNC44QzUxLjcgMTQuOCA1Mi4yIDE0LjYgNTIuNSAxNC4yTDUzLjQgMTIuOSA1NC4zIDE0LjJDNTQuNiAxNC42IDU1LjEgMTQuOCA1NS41IDE0LjhMNTcuNyAxNC44QzU4LjggMTQuOCA1OS41IDEzLjQgNTguOSAxMi41TDU2LjMgOC45IDU4LjcgNS41QzU5LjQgNC42IDU4LjYgMy4xIDU3LjUgMy4xTDU1LjMgMy4xQzU0LjkgMy4xIDU0LjQgMy40IDU0LjEgMy44TDUzLjQgNC44IDUyLjcgMy44QzUyLjQgMy40IDUxLjkgMy4xIDUxLjQgMy4xTDQ5LjMgMy4xQzQ4LjggMy4xIDQ4LjMgMy40IDQ4IDMuOCA0Ny4yIDMuMyA0Ni4yIDMgNDUuMSAzIDQzLjEgMyA0MS4zIDQuMSA0MC4yIDUuNyAzOS4yIDQgMzcuNCAzIDM1LjMgM0wzNS4zIDEuNUMzNS4zIDEuMSAzNS4xIDAuNyAzNC44IDAuNCAzNC42IDAuMiAzNC4yIDAgMzMuOCAwTDMyIDBDMzEuMyAwIDMwLjUgMC44IDMwLjUgMS41TDMwLjUgNC43QzI5LjUgMy42IDI4LjEgMyAyNi41IDNMMjMuMSAzQzIyLjQgMyAyMS43IDMuNyAyMS43IDQuNUwyMS43IDQuOEMyMC42IDMuNyAxOS4yIDMgMTcuNiAzIDE1LjkgMyAxNC41IDMuNyAxMy41IDQuOEwxMy41IDEuNUMxMy41IDAuNyAxMi44IDAgMTIgMEwxMC42IDBDOS42IDAgOC40IDAuNCA3LjggMS40TDYuOCAzLjEgNS44IDEuNEM1LjEgMC40IDMuOSAwIDIuOSAwTDEuNSAwIDEuNCAwek0xLjUgMS41TDIuOSAxLjVDMy42IDEuNSA0LjIgMS43IDQuNSAyLjJMNi44IDYuMSA5IDIuMkM5LjMgMS43IDkuOSAxLjUgMTAuNiAxLjVMMTIgMS41IDEyIDEzLjUgMTAuMiAxMy41IDEwLjIgMy42IDYuOCA5LjUgMy4zIDMuNiAzLjMgMTMuNSAxLjUgMTMuNSAxLjUgMS41ek0zMi4xIDEuNUwzMy44IDEuNSAzMy44IDQuNUMzNC40IDQuNSAzNC44IDQuNSAzNS4zIDQuNSAzNy44IDQuNSAzOS43IDYuNCAzOS43IDkgMzkuNyAxMS42IDM3LjggMTMuNSAzNS4zIDEzLjVMMzIuMSAxMy41IDMyLjEgMS41ek0xNy42IDQuNUMyMCA0LjUgMjEuOCA2LjQgMjEuOCA5TDIxLjggMTMuNSAxNy42IDEzLjVDMTUuMSAxMy41IDEzLjQgMTEuNiAxMy40IDkgMTMuNCA2LjQgMTUuMSA0LjUgMTcuNiA0LjV6TTQ1LjEgNC41QzQ3LjUgNC41IDQ5LjUgNi41IDQ5LjUgOSA0OS41IDExLjUgNDcuNSAxMy41IDQ1LjEgMTMuNSA0Mi43IDEzLjUgNDAuNyAxMS41IDQwLjcgOSA0MC43IDYuNSA0Mi43IDQuNSA0NS4xIDQuNXpNMjMuMSA0LjVMMjYuNSA0LjVDMjguOSA0LjUgMzAuOCA2LjQgMzAuOCA5IDMwLjggMTEuNiAyOC45IDEzLjUgMjYuNSAxMy41TDI0LjkgMTMuNSAyNC45IDE2LjUgMjMuMSAxNi41IDIzLjEgNC41ek00OS4zIDQuNUw1MS40IDQuNSA1My40IDcuMyA1NS4zIDQuNSA1Ny41IDQuNSA1NC41IDguOSA1Ny43IDEzLjUgNTUuNSAxMy41IDUzLjQgMTAuNCA1MS4yIDEzLjUgNDkuMSAxMy41IDUyLjMgOC45IDQ5LjMgNC41ek0xNy42IDYuMkMxNi4yIDYuMiAxNS4xIDcuNCAxNS4xIDkgMTUuMSAxMC42IDE2LjIgMTEuOCAxNy42IDExLjhMMjAgMTEuOCAyMCA5QzIwIDcuNCAxOSA2LjIgMTcuNiA2LjJ6TTQ1LjEgNi4yQzQzLjcgNi4yIDQyLjUgNy41IDQyLjUgOSA0Mi41IDEwLjUgNDMuNyAxMS44IDQ1LjEgMTEuOCA0Ni42IDExLjggNDcuNyAxMC41IDQ3LjcgOSA0Ny43IDcuNSA0Ni42IDYuMiA0NS4xIDYuMnpNMjQuOSA2LjNMMjQuOSAxMS44IDI2LjUgMTEuOEMyNy45IDExLjggMjkuMSAxMC41IDI5LjEgOSAyOS4xIDcuNSAyOC4xIDYuMyAyNi41IDYuM0wyNC45IDYuM3pNMzMuOCA2LjNMMzMuOCAxMS44IDM1LjMgMTEuOEMzNi45IDExLjggMzggMTAuNSAzOCA5IDM4IDcuNSAzNi44IDYuMyAzNS4zIDYuM0wzMy44IDYuM3pNMTcuNiA3LjdDMTguMSA3LjcgMTguNSA4LjEgMTguNSA5TDE4LjUgMTAuMyAxNy42IDEwLjNDMTcgMTAuMyAxNi42IDkuOSAxNi42IDkgMTYuNiA4LjEgMTcgNy43IDE3LjYgNy43ek0yNi40IDcuN0MyNy4yIDcuNyAyNy42IDguNCAyNy42IDkgMjcuNiA5LjkgMjYuOSAxMC4zIDI2LjQgMTAuM0wyNi40IDcuN3pNMzUuMSA3LjdDMzUuOCA3LjcgMzYuNSA4LjMgMzYuNSA5IDM2LjUgOS44IDM1LjkgMTAuMyAzNS4xIDEwLjNMMzUuMSA3Ljd6TTQ1LjEgNy43QzQ1LjcgNy43IDQ2LjIgOC4yIDQ2LjIgOSA0Ni4yIDkuOCA0NS43IDEwLjMgNDUuMSAxMC4zIDQ0LjUgMTAuMyA0NCA5LjggNDQgOSA0NCA4LjIgNDQuNSA3LjcgNDUuMSA3Ljd6IiBvcGFjaXR5PSIwLjMiLz48cGF0aCBkPSJtMS41IDEuNSAwIDEyIDEuOCAwIDAtOS45IDMuNSA1LjkgMy41LTUuOSAwIDkuOSAxLjggMCAwLTEyLTEuNCAwQzkuOSAxLjUgOS4zIDEuNyA5IDIuMkw2LjggNi4xIDQuNSAyLjJDNC4yIDEuNyAzLjYgMS41IDIuOSAxLjVMMS41IDEuNVptMzAuNiAwIDAgMTIgMy4zIDBjMi40IDAgNC40LTEuOSA0LjQtNC41IDAtMi42LTEuOS00LjUtNC40LTQuNS0wLjUgMC0wLjkgMC0xLjUgMGwwLTMtMS43IDB6TTE3LjYgNC41Yy0yLjQgMC00LjIgMS45LTQuMiA0LjUgMCAyLjYgMS44IDQuNSA0LjIgNC41bDQuMiAwTDIxLjggOWMwLTIuNi0xLjctNC41LTQuMi00LjV6bTI3LjYgMGMtMi40IDAtNC40IDItNC40IDQuNSAwIDIuNSAyIDQuNSA0LjQgNC41IDIuNCAwIDQuMy0yIDQuMy00LjUgMC0yLjUtMS45LTQuNS00LjMtNC41em0tMjIgMCAwIDEyIDEuOCAwIDAtMyAxLjYgMGMyLjQgMCA0LjMtMS45IDQuMy00LjUgMC0yLjYtMS45LTQuNS00LjMtNC41bC0zLjMgMHptMjYuMiAwIDMgNC40LTMuMiA0LjYgMi4xIDAgMi4yLTMuMSAyLjEgMy4xIDIuMiAwTDU0LjUgOC45IDU3LjUgNC41IDU1LjMgNC41IDUzLjQgNy4zIDUxLjQgNC41IDQ5LjMgNC41Wk0xNy42IDYuMkMxOSA2LjIgMjAgNy40IDIwIDlsMCAyLjgtMi40IDBjLTEuNCAwLTIuNC0xLjItMi40LTIuOCAwLTEuNiAxLTIuOCAyLjQtMi44em0yNy42IDBjMS40IDAgMi42IDEuMiAyLjYgMi44IDAgMS41LTEuMiAyLjgtMi42IDIuOEM0My43IDExLjggNDIuNSAxMC41IDQyLjUgOWMwLTEuNSAxLjItMi44IDIuNi0yLjh6bS0yMC4yIDAgMS42IDBjMS42IDAgMi42IDEuMyAyLjYgMi44IDAgMS41LTEuMSAyLjgtMi42IDIuOGwtMS42IDAgMC01LjV6bTkgMCAxLjUgMGMxLjUgMCAyLjYgMS4zIDIuNiAyLjggMCAxLjUtMSAyLjgtMi42IDIuOGwtMS41IDAgMC01LjV6IiBmaWxsPSIjZmZmIi8+PC9zdmc+' alt='Mapbox' />
-        </a>
     </div>
     <div id='sidebar'>
         <div id='title' class='session'>
-            <h1>Brown County</h1>
-            <h2>WI trail map</h2>
+            <h2>Brown County Trails</h2>
         </div>
         <div class='mobile-show session-alt'>
             <div class='mobile-btn show-more' id='showmore'>Show more</div>
             <div class='mobile-btn show-less' id='showlessx'>Show less</div>
         </div>
-        <div id="mapToggleContainer" class="pad2 center">
-            <h3> Map Background </h3>
-            <div class='rounded-toggle inline fill-cyan' style="color: black;" id='mapToggle'>
-                <input id="0" type="radio" name="toggle" value="Map" class="fill-white" checked>
-                <label for="0"><h5>Trail</h5></label>
-                <input id="1" type="radio" name="toggle" value="Satellite">
-                <label for="1"><h5>Satellite</h5></label>
-            </div>
-        </div>
         <div id="locationToggleContainer" class="pad2 center">
-            <h3> Location </h3>
+            <h2> Location </h2>
             <div class='rounded-toggle inline fill-cyan' style="color: black;" id='locationToggle'>
                 <input type="radio" name="toggle2" value="refo" id="refo" checked>
-                <label for="refo"><h5>Refo Camp</h5></label>
+                <label for="refo">
+                    <h5>Refo Camp</h5></label>
                 <input type="radio" name="toggle2" value="bark" id="bark">
-                <label for="bark"><h5>Barkhausen</h5></label>
+                <label for="bark">
+                    <h5>Barkhausen</h5></label>
             </div>
         </div>
         <div id="trailToggleContainer" class="pad2 center">
-            <h3> Trail Type </h3>
+            <h2> Trail Type </h2>
             <div class='rounded-toggle inline fill-cyan' style="color: black;" id='trailToggle'>
                 <input type="radio" name="toggle3" value="nordic" id="nordic" checked>
-                <label for="nordic"><h5>Nordic Ski</h5></label>
+                <label for="nordic">
+                    <h5>Nordic Ski</h5></label>
                 <input type="radio" name="toggle3" value="mtb" id="mtb">
-                <label for="mtb"><h5>Mountain Bike</h5></label>
+                <label for="mtb">
+                    <h5>Mountain Bike</h5></label>
             </div>
+        </div>
+        <div id="mapToggleContainer" class="pad2 center">
+            <h2> Map Background </h2>
+            <div class='rounded-toggle inline fill-cyan' style="color: black;" id='mapToggle'>
+                <input id="0" type="radio" name="toggle" value="Map" checked>
+                <label for="0">
+                    <h5>Trail</h5></label>
+                <input id="1" type="radio" name="toggle" value="Satellite">
+                <label for="1">
+                    <h5>Satellite</h5></label>
+            </div>
+        </div>
+        <div id="conditions" class="pad2 center">
+            <h2> Trail Conditions </h2>
+            <a target='_blank' href='http://www.co.brown.wi.us/departments/page_20d7d9ef528e/?department=260ed145263d&subdepartment=7d74161a9937'><h3>Nordic</h3></a>
+            <a target='_blank' href='http://www.co.brown.wi.us/departments/page_82801ba25ba2/?department=260ed145263d&subdepartment=ad2a04c56a62'><h3>MTB</h3></a>
         </div>
     </div>
 </body>
