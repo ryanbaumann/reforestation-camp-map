@@ -12,16 +12,16 @@ if (window.location.search.indexOf('embed') !== -1) {
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
 var refo_nordic_layerList = ['refo-nordic-nightski', 'refo-nordic-maples', 'refo-nordic-oaks',
-    'refo-nordic-birches', 'refo-nordic-labels', 'refo-features-label', 'refo-boundary-poly'
+    'refo-nordic-birches', 'refo-nordic-labels', 'refo-features-label', 'refo-boundary-poly', 'refo-features-poly'
 ];
 
-var refo_mtb_layerList = ['refo-mtb-redloop', 'refo-mtb-labels', 'refo-features-label', 'refo-mtb-snowbike', 'refo-boundary-poly']
+var refo_mtb_layerList = ['refo-mtb-greenloop', 'refo-mtb-labels', 'refo-features-label', 'refo-mtb-snowbike', 'refo-boundary-poly', 'refo-features-poly']
 
 var barkhausen_nordic_layerList = ['bark-features-label', 'bark-nordic-labels', 'bark-nordic-shores',
     'bark-features-poly', 'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek', 'bark-ponds-poly'
 ]
 
-var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList)
+var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList);
 
 var current = 1
 
@@ -149,7 +149,7 @@ function addToggleTwo() {
 
     barkButton.addEventListener('click', function() {
         map.setCenter(centers["Barkhausen"])
-        map.setZoom(14)
+        //map.setZoom(15)
     });
 }
 
