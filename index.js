@@ -1,7 +1,6 @@
 'use strict'
 var mapboxgl = require('mapbox-gl');
 var turf_linestring = require('turf-linestring');
-var geojsonExt = require('geojson-extent');
 var $ = require('jQuery');
 
 // disable scroll if it's embedded in a blog post
@@ -51,6 +50,7 @@ var map = new mapboxgl.Map({
 });
 
 window.map = map;
+window.loading = document.getElementById('loading');
 
 var popup = new mapboxgl.Popup({
     closeButton: false,
@@ -180,7 +180,9 @@ map.on('load', function() {
     addToggleTwo();
     addToggleThree();
     map.addControl(geolocate, 'top-right');
-    //var directions = require('./directions.js');
+
+    //var directions = require('./js/directions.js');
+    var getElevation = require('./js/elevation-query.js');
 
     map.on('mousemove', function(e) {
         var features = map.queryRenderedFeatures(e.point, { layers: layerList });
@@ -202,18 +204,20 @@ map.on('load', function() {
 
     map.on('click', function(e) {
         var features = map.queryRenderedFeatures(e.point, { layers: layerList });
-
+        getElevation(features[0])
         map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
         if (!features.length) {
             popup.remove();
             return;
         }
+        /*
         var feat = features[0];
         var coords = feat.geometry.coordinates
         var ls = turf_linestring.lineString(coords);
         var bbox = geojsonExt(ls);
         map.fitBounds(bbox);
+        */
     });
 
     geolocate.on('geolocate', function(e) {
@@ -221,6 +225,8 @@ map.on('load', function() {
         userLocation.features[0].geometry.coordinates = user_point;
         updateUserLocation(map, 'user-location', userLocation);
     });
+
+    loading.style.visibility = 'hidden';
 
     // mobile menu toggle
     $(".show-more").click(function() {
