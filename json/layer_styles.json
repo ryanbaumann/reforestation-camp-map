@@ -1,0 +1,1014 @@
+{
+    "layers": [{
+        "id": "refo-features-poly",
+        "type": "fill",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Polygon"
+            ],
+            [
+                "all", [
+                    "!=",
+                    "name",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ]
+            ]
+        ],
+        "layout": {},
+        "paint": {
+            "fill-color": "hsl(178, 100%, 50%)",
+            "fill-opacity": 0.5,
+            "fill-outline-color": "hsl(0, 0%, 0%)"
+        }
+    }, {
+        "id": "refo-boundary-poly",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Polygon"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Reforestation Camp"
+                ]
+            ]
+        ],
+        "layout": {
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-dasharray": [
+                2,
+                2
+            ],
+            "line-width": 2
+        }
+    }, {
+        "id": "refo-nordic-nightski",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "name",
+                    "night ski"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(224, 100%, 50%)",
+            "line-offset": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        1
+                    ],
+                    [
+                        14,
+                        2
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            }
+        }
+    }, {
+        "id": "refo-nordic-birches",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Birches"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(121, 100%, 50%)",
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-offset": 0
+        }
+    }, {
+        "id": "refo-nordic-oaks",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Oaks"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(0, 100%, 50%)",
+            "line-offset": {
+                "base": 1,
+                "stops": [
+                    [
+                        12, -3
+                    ],
+                    [
+                        14, -4
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            }
+        }
+    }, {
+        "id": "refo-nordic-maples",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Maples"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-round-limit": 10,
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(59, 100%, 50%)",
+            "line-offset": {
+                "base": 1,
+                "stops": [
+                    [
+                        12, -1
+                    ],
+                    [
+                        14, -2
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            }
+        }
+    }, {
+        "id": "refo-nordic-labels",
+        "type": "symbol",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Point"
+            ],
+            [
+                "all", [
+                    "==",
+                    "type",
+                    "nordic"
+                ],
+                [
+                    "in",
+                    "name",
+                    "Birches",
+                    "Maples",
+                    "Oaks"
+                ]
+            ]
+        ],
+        "layout": {
+            "text-optional": true,
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        10
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            },
+            "text-allow-overlap": true,
+            "icon-image": "Cross_country_skiing_pictogram",
+            "text-ignore-placement": true,
+            "text-max-angle": 45,
+            "text-transform": "uppercase",
+            "symbol-spacing": 100,
+            "text-font": [
+                "Droid Serif Regular"
+            ],
+            "icon-allow-overlap": true,
+            "text-padding": 5,
+            "text-offset": [
+                0, -1
+            ],
+            "icon-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        0.05
+                    ],
+                    [
+                        16,
+                        0.2
+                    ]
+                ]
+            },
+            "text-anchor": "bottom",
+            "text-field": "{name}",
+            "text-max-width": 5,
+            "icon-ignore-placement": true
+        },
+        "paint": {
+            "text-translate": [
+                0,
+                0
+            ],
+            "text-color": "hsl(0, 0%, 100%)",
+            "text-halo-color": "hsla(0, 0%, 0%, 0)",
+            "text-halo-blur": 0,
+            "text-halo-width": 1,
+            "icon-translate-anchor": "viewport",
+            "text-translate-anchor": "viewport"
+        }
+    }, {
+        "id": "refo-features-label",
+        "type": "symbol",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Point"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "in",
+                    "name",
+                    "Main Lodge",
+                    "Parking - Main",
+                    "Parking - Secondary"
+                ]
+            ]
+        ],
+        "layout": {
+            "text-field": "{name}",
+            "text-font": [
+                "Droid Serif Bold"
+            ],
+            "text-max-width": 5,
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        10
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            }
+        },
+        "paint": {
+            "text-color": "hsl(0, 0%, 100%)",
+            "text-halo-color": "hsla(0, 1%, 3%, 0)",
+            "text-halo-width": 1
+        }
+    }, {
+        "id": "refo-mtb-greenloop",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "in",
+                    "name",
+                    "Green Loop",
+                    "Red Loop"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "none",
+            "line-round-limit": 10,
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(121, 100%, 50%)",
+            "line-offset": 0,
+            "line-gap-width": 0,
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            }
+        }
+    }, {
+        "id": "refo-mtb-snowbike",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Snow Bike"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "none",
+            "line-round-limit": 10,
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(59, 100%, 50%)",
+            "line-offset": 0,
+            "line-gap-width": 0,
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            }
+        }
+    }, {
+        "id": "refo-mtb-labels",
+        "type": "symbol",
+        "metadata": {
+            "mapbox:group": "757d0673bd8eba89e8880b03f44ef3c5"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Point"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Reforestation Camp"
+                ],
+                [
+                    "==",
+                    "type",
+                    "MTB"
+                ]
+            ]
+        ],
+        "layout": {
+            "text-optional": true,
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        10
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            },
+            "icon-image": "mtb_icon",
+            "text-ignore-placement": true,
+            "text-max-angle": 45,
+            "text-transform": "uppercase",
+            "symbol-spacing": 100,
+            "text-font": [
+                "Droid Serif Regular"
+            ],
+            "text-padding": 5,
+            "visibility": "none",
+            "text-offset": [
+                0, -1
+            ],
+            "icon-optional": true,
+            "icon-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        0.05
+                    ],
+                    [
+                        16,
+                        0.2
+                    ]
+                ]
+            },
+            "text-field": "{name}",
+            "icon-padding": 1,
+            "text-max-width": 5,
+            "icon-ignore-placement": true
+        },
+        "paint": {
+            "text-translate": [
+                0,
+                0
+            ],
+            "text-color": "hsl(0, 0%, 100%)",
+            "text-halo-color": "hsla(0, 0%, 0%, 0)",
+            "text-translate-anchor": "viewport",
+            "text-halo-width": 1,
+            "icon-translate-anchor": "viewport",
+            "text-halo-blur": 0
+        }
+    }, {
+        "id": "bark-features-poly",
+        "type": "fill",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Polygon"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "in",
+                    "name",
+                    "Parking - Main",
+                    "Visitors Center"
+                ]
+            ]
+        ],
+        "layout": {},
+        "paint": {
+            "fill-color": "hsl(250, 100%, 50%)",
+            "fill-outline-color": "hsl(0, 0%, 0%)",
+            "fill-opacity": 0.5
+        }
+    }, {
+        "id": "bark-ponds-poly",
+        "type": "fill",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Polygon"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Pond"
+                ]
+            ]
+        ],
+        "layout": {},
+        "paint": {
+            "fill-color": "hsl(213, 100%, 50%)",
+            "fill-outline-color": "hsl(0, 0%, 0%)",
+            "fill-opacity": 0.8
+        }
+    }, {
+        "id": "bark-nordic-shores",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Shores"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(0, 0%, 0%)",
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-offset": 0
+        }
+    }, {
+        "id": "bark-nordic-mosquitocreek",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Mosquite Creek"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(63, 100%, 50%)",
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-offset": 0
+        }
+    }, {
+        "id": "bark-nordic-meadowridge",
+        "type": "line",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "LineString"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "==",
+                    "name",
+                    "Meadow Ridge"
+                ]
+            ]
+        ],
+        "layout": {
+            "visibility": "visible",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "hsl(0, 100%, 50%)",
+            "line-width": {
+                "base": 1,
+                "stops": [
+                    [
+                        12,
+                        2
+                    ],
+                    [
+                        14,
+                        3
+                    ]
+                ]
+            },
+            "line-gap-width": 0,
+            "line-offset": 0
+        }
+    }, {
+        "id": "bark-nordic-labels",
+        "type": "symbol",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Point"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "==",
+                    "type",
+                    "nordic"
+                ]
+            ]
+        ],
+        "layout": {
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        10
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            },
+            "icon-image": {
+                "base": 1,
+                "stops": [
+                    [
+                        0,
+                        "Cross_country_skiing_pictogram"
+                    ],
+                    [
+                        22,
+                        "Cross_country_skiing_pictogram"
+                    ]
+                ]
+            },
+            "text-ignore-placement": true,
+            "text-max-angle": 45,
+            "text-transform": "uppercase",
+            "symbol-spacing": 100,
+            "text-font": [
+                "Droid Serif Regular"
+            ],
+            "text-padding": 5,
+            "text-offset": [
+                0, -1
+            ],
+            "icon-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        0.05
+                    ],
+                    [
+                        16,
+                        0.2
+                    ]
+                ]
+            },
+            "text-anchor": "bottom",
+            "text-field": "{name}",
+            "text-max-width": 5,
+            "icon-ignore-placement": true
+        },
+        "paint": {
+            "text-translate": [
+                0,
+                0
+            ],
+            "text-color": "hsl(0, 0%, 100%)",
+            "text-halo-color": "hsla(0, 0%, 0%, 0)",
+            "text-halo-width": 1,
+            "text-halo-blur": 0,
+            "text-translate-anchor": "viewport",
+            "icon-translate-anchor": "viewport"
+        }
+    }, {
+        "id": "bark-features-label",
+        "type": "symbol",
+        "metadata": {
+            "mapbox:group": "2ea218815f78fc38cfefe5eac505588b"
+        },
+        "source": "trails",
+        "source-layer": "reforestation-camp-trails",
+        "filter": [
+            "all", [
+                "==",
+                "$type",
+                "Point"
+            ],
+            [
+                "all", [
+                    "==",
+                    "location",
+                    "Barkhausen"
+                ],
+                [
+                    "in",
+                    "name",
+                    "Parking - Main",
+                    "Visitors Center"
+                ]
+            ]
+        ],
+        "layout": {
+            "text-line-height": 1,
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        10,
+                        10
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            },
+            "text-transform": "uppercase",
+            "text-font": [
+                "Droid Serif Bold"
+            ],
+            "text-padding": 1,
+            "text-offset": [
+                0,
+                0
+            ],
+            "text-field": "{name}",
+            "text-letter-spacing": 0,
+            "text-max-width": 5
+        },
+        "paint": {
+            "text-color": {
+                "base": 1,
+                "stops": [
+                    [
+                        0,
+                        "hsl(0, 0%, 100%)"
+                    ],
+                    [
+                        22,
+                        "hsl(0, 0%, 100%)"
+                    ]
+                ]
+            },
+            "text-halo-width": 1,
+            "text-halo-color": "hsla(0, 0%, 1%, 0)",
+            "text-translate-anchor": "viewport"
+        }
+    }]
+}

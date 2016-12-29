@@ -1,7 +1,9 @@
 'use strict'
+
 var mapboxgl = require('mapbox-gl');
-var turf_linestring = require('turf-linestring');
 var $ = require('jQuery');
+var path = require('path');
+var style_file = path.join(__dirname, 'json/style.json');
 
 // disable scroll if it's embedded in a blog post
 if (window.location.search.indexOf('embed') !== -1) {
@@ -19,6 +21,18 @@ var refo_mtb_layerList = ['refo-mtb-greenloop', 'refo-mtb-labels', 'refo-feature
 var barkhausen_nordic_layerList = ['bark-features-label', 'bark-nordic-labels', 'bark-nordic-shores',
     'bark-features-poly', 'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek', 'bark-ponds-poly'
 ]
+
+var style_layers = []; //list of layers in trail map to add to style
+
+mapboxgl.util.getJSON('/json/layer_styles.json', function(err, resp) {
+
+    if (err) throw err;
+
+    var styles = resp.layers.forEach(function(layer) {
+        style_layers.push(layer)
+    });
+    initMap();
+});
 
 var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList);
 
@@ -41,9 +55,12 @@ var centers = {
     'Reforestation Camp': [-88.0813, 44.6667]
 }
 
+var mapStyles = ['mapbox://styles/rsbaumann/cixalvwub00192qqoiskvmo2j?optimize=true',
+'mapbox://styles/mapbox/satellite-streets-v9?optimize=true']
+
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/rsbaumann/ciwyfl6jk001j2qsdtfxkr1ny?optimize=true',
+    style: mapStyles[0],
     center: centers["Reforestation Camp"],
     zoom: 13,
     hash: true
@@ -127,14 +144,15 @@ function updateUserLocation(map, sourceName, geojson) {
 }
 
 function addToggleOne() {
-    var toggle = document.getElementById('mapToggle');
+    var trail = document.getElementById('trail');
+    var satellite = document.getElementById('satellite');
 
-    toggle.addEventListener('change', function(e) {
-        if (map.getLayoutProperty('mapbox-mapbox-satellite', 'visibility') === 'visible') {
-            map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'none')
-        } else {
-            map.setLayoutProperty('mapbox-mapbox-satellite', 'visibility', 'visible')
-        }
+    trail.addEventListener('click', function() {
+        map.setStyle(mapStyles[0])
+    });
+
+    satellite.addEventListener('click', function() {
+        map.setStyle(mapStyles[1])
     });
 }
 
@@ -149,7 +167,6 @@ function addToggleTwo() {
 
     barkButton.addEventListener('click', function() {
         map.setCenter(centers["Barkhausen"])
-        //map.setZoom(15)
     });
 }
 
@@ -175,81 +192,96 @@ function addToggleThree() {
     });
 }
 
-map.on('load', function() {
-    addToggleOne();
-    addToggleTwo();
-    addToggleThree();
-    map.addControl(geolocate, 'top-right');
-
-    //var directions = require('./js/directions.js');
-    var getElevation = require('./js/elevation-query.js');
-
-    map.on('mousemove', function(e) {
-        var features = map.queryRenderedFeatures(e.point, { layers: layerList });
-
-        map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-
-        if (!features.length) {
-            popup.remove();
-            return;
+function checkLoaded() {
+    var timer = window.setInterval(function() {
+        if (map.loaded) {
+            loading.style.visibility = 'hidden';
+            window.clearInterval(timer);
         }
+    }, 200)
+}
 
-        var feature = features[0];
+function initMap() {
+    map.on('style.load', function() {
+        checkLoaded();
 
-        popup.setLngLat(map.unproject(e.point))
-            .setHTML('<li> Trail: ' + feature.properties.name + '</li>' +
-                '<li> Distance: ' + feature.properties.distance + '</li>')
-            .addTo(map);
+        map.addSource('trails', {
+            type: 'vector',
+            url: 'mapbox://rsbaumann.ciwzjxgn901b22zprhs188fk5-4maem'
+        });
+
+        style_layers.forEach(function(layer) {
+            map.addLayer(layer, 'waterway-label')
+        });
+
+        //Add togle event listeners
+        addToggleOne();
+        addToggleTwo();
+        addToggleThree();
+
+        //Add geolocate control
+        map.addControl(geolocate, 'top-right');
+
+        map.on('mousemove', function(e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: layerList });
+
+            map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+            if (!features.length) {
+                popup.remove();
+                return;
+            }
+
+            var feature = features[0];
+            var id = feature.properties.id
+
+            popup.setLngLat(map.unproject(e.point))
+                .setHTML('<li> Trail: ' + feature.properties.name + '</li>' +
+                    '<li> Distance: ' + feature.properties.distance + '</li>')
+                .addTo(map);
+
+            map.on('click', function(e) {
+                /*var getElev = require('./js/elevation-query');
+                var features = map.queryRenderedFeatures(e.point, { layers: layerList });
+                getElev(features[0])*/
+                map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+                if (!features.length) {
+                    popup.remove();
+                    return;
+                }
+            });
+
+            geolocate.on('geolocate', function(e) {
+                var user_point = [e.coords.longitude, e.coords.latitude]
+                userLocation.features[0].geometry.coordinates = user_point;
+                updateUserLocation(map, 'user-location', userLocation);
+            });
+
+            // mobile menu toggle
+            $(".show-more").click(function() {
+                $(".session").toggle();
+                $("#title").show();
+                $(".session.style").hide();
+
+                // toggle show-less and show-more
+                $(".mobile-btn").toggle();
+
+                $("#sidebar").css('height', '50vh');
+                $("#map").css('height', 'calc(100% - 50vh');
+                $("#map").css('top', '50vh');
+            });
+            $(".show-less").click(function() {
+                $(".session").toggle();
+                $("#title").show();
+                $(".session.style").hide();
+
+                // toggle show-less and show-more
+                $(".mobile-btn").toggle();
+                $("#sidebar").css('height', '16vh');
+                $("#map").css('height', 'calc(100% - 16vh');
+                $("#map").css('top', '16vh');
+            });
+        });
     });
-
-    map.on('click', function(e) {
-        var features = map.queryRenderedFeatures(e.point, { layers: layerList });
-        getElevation(features[0])
-        map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-
-        if (!features.length) {
-            popup.remove();
-            return;
-        }
-        /*
-        var feat = features[0];
-        var coords = feat.geometry.coordinates
-        var ls = turf_linestring.lineString(coords);
-        var bbox = geojsonExt(ls);
-        map.fitBounds(bbox);
-        */
-    });
-
-    geolocate.on('geolocate', function(e) {
-        var user_point = [e.coords.longitude, e.coords.latitude]
-        userLocation.features[0].geometry.coordinates = user_point;
-        updateUserLocation(map, 'user-location', userLocation);
-    });
-
-    loading.style.visibility = 'hidden';
-
-    // mobile menu toggle
-    $(".show-more").click(function() {
-        $(".session").toggle();
-        $("#title").show();
-        $(".session.style").hide();
-
-        // toggle show-less and show-more
-        $(".mobile-btn").toggle();
-
-        $("#sidebar").css('height', '50vh');
-        $("#map").css('height', 'calc(100% - 50vh');
-        $("#map").css('top', '50vh');
-    });
-    $(".show-less").click(function() {
-        $(".session").toggle();
-        $("#title").show();
-        $(".session.style").hide();
-
-        // toggle show-less and show-more
-        $(".mobile-btn").toggle();
-        $("#sidebar").css('height', '16vh');
-        $("#map").css('height', 'calc(100% - 16vh');
-        $("#map").css('top', '16vh');
-    });
-});
+}

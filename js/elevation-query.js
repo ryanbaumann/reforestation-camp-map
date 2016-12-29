@@ -15,16 +15,22 @@ var geojson_feature = {
 //Gloals for Terrain RGB terrain getting
 var x, y, i, here;
 var index = 0;
-var z = 20;
+var z = 19;
 var act_id = 0;
 var course = {
     type: 'FeatureCollection',
     features: []
 };
+var here;
 
 // Functions for querying elevation from Terrain RGB
 function getTile(line, here) {
-    var tile = tilebelt.pointToTile(here[0], here[1], z);
+    if (!!here[0] && !!here[1]) {
+        var tile = tilebelt.pointToTile(here[0], here[1], z);
+    } else {
+        loading.style.visibility = 'hidden';
+        return
+    }
     x = tile[0];
     y = tile[1];
 
@@ -32,7 +38,7 @@ function getTile(line, here) {
         var terrain = 'https://api.mapbox.com/v4/mapbox.terrain-rgb/' + z + '/' + x + '/' + y + '.pngraw?access_token=pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
         getPixels(terrain, function(error, pixels) {
             try {
-                generate(line, pixels, here);
+                generate(line, pixels);
             } catch (e) {
                 window.alert('that route has an issue, try another?')
                 console.log(e)
@@ -137,7 +143,7 @@ function generate(line, pixels) {
     loading.style.visibility = 'hidden'
 }
 
-module.exports = function getElevation(feature) {
+function getElevation(feature) {
     // Reset the course and index variables for querying new data
     loading.style.visibility = 'visible'
 
@@ -160,13 +166,11 @@ module.exports = function getElevation(feature) {
             "properties": f.properties
         });
     } else {
-        return }
-
-    try {
-        var here = geojson_feature.features[0].geometry.coordinates[0];
-    } catch (e) {
-        window.alert('Select a line feature first!')
+        return
     }
+
+    here = geojson_feature.features[0].geometry.coordinates[0];
+
     try {
         getTile(geojson_feature, here);
     } catch (e) {
@@ -174,3 +178,5 @@ module.exports = function getElevation(feature) {
         loading.style.visibility = 'hidden'
     }
 };
+
+module.exports = getElevation;
