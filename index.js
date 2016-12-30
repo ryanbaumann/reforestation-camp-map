@@ -56,7 +56,8 @@ var centers = {
 }
 
 var mapStyles = ['mapbox://styles/rsbaumann/cixalvwub00192qqoiskvmo2j?optimize=true',
-'mapbox://styles/mapbox/satellite-streets-v9?optimize=true']
+    'mapbox://styles/mapbox/satellite-streets-v9?optimize=true'
+]
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -68,6 +69,31 @@ var map = new mapboxgl.Map({
 
 window.map = map;
 window.loading = document.getElementById('loading');
+
+// mobile menu toggle
+$(".show-more").click(function() {
+    $(".session").toggle();
+    $("#title").show();
+    $(".session.style").hide();
+
+    // toggle show-less and show-more
+    $(".mobile-btn").toggle();
+
+    $("#sidebar").css('height', '50vh');
+    $("#map").css('height', 'calc(100% - 50vh');
+    $("#map").css('top', '50vh');
+});
+$(".show-less").click(function() {
+    $(".session").toggle();
+    $("#title").show();
+    $(".session.style").hide();
+
+    // toggle show-less and show-more
+    $(".mobile-btn").toggle();
+    $("#sidebar").css('height', '16vh');
+    $("#map").css('height', 'calc(100% - 16vh');
+    $("#map").css('top', '16vh');
+});
 
 var popup = new mapboxgl.Popup({
     closeButton: false,
@@ -89,7 +115,7 @@ var nav = new mapboxgl.NavigationControl();
 
 map.addControl(scale, 'bottom-left');
 map.addControl(nav, 'top-left');
-
+map.addControl(geolocate, 'top-right');
 
 function updateUserLocation(map, sourceName, geojson) {
     if (!map.getSource(sourceName)) {
@@ -220,7 +246,6 @@ function initMap() {
         addToggleThree();
 
         //Add geolocate control
-        map.addControl(geolocate, 'top-right');
 
         map.on('mousemove', function(e) {
             var features = map.queryRenderedFeatures(e.point, { layers: layerList });
@@ -256,31 +281,6 @@ function initMap() {
                 var user_point = [e.coords.longitude, e.coords.latitude]
                 userLocation.features[0].geometry.coordinates = user_point;
                 updateUserLocation(map, 'user-location', userLocation);
-            });
-
-            // mobile menu toggle
-            $(".show-more").click(function() {
-                $(".session").toggle();
-                $("#title").show();
-                $(".session.style").hide();
-
-                // toggle show-less and show-more
-                $(".mobile-btn").toggle();
-
-                $("#sidebar").css('height', '50vh');
-                $("#map").css('height', 'calc(100% - 50vh');
-                $("#map").css('top', '50vh');
-            });
-            $(".show-less").click(function() {
-                $(".session").toggle();
-                $("#title").show();
-                $(".session.style").hide();
-
-                // toggle show-less and show-more
-                $(".mobile-btn").toggle();
-                $("#sidebar").css('height', '16vh');
-                $("#map").css('height', 'calc(100% - 16vh');
-                $("#map").css('top', '16vh');
             });
         });
     });
