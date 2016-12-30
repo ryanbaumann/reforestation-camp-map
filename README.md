@@ -19,5 +19,5 @@ County park trail map for Brown County, Wisconsin
 ## Use
 
 * Click on the `geolocate` icon to have the map show your current location
-* View the [live map example](https://bl.ocks.org/ryanbaumann/raw/8fee54a62b06b872ca7ac39e1f63ddc6/afead12f4b1dfdb9b0e1f66e86496a759ffaaf4a/#13/44.6667/-88.0813)
+* View the [live map example](https://bl.ocks.org/ryanbaumann/raw/8fee54a62b06b872ca7ac39e1f63ddc6/a93300e9e48e9e47a4a565ef4cbb30bddf7e9034/#13/44.6667/-88.0813)
 
