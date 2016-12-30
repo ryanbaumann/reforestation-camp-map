@@ -10,6 +10,8 @@ if (window.location.search.indexOf('embed') !== -1) {
     map.scrollZoom.disable();
 };
 
+var name = "0"
+
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
 var refo_nordic_layerList = ['refo-nordic-nightski', 'refo-nordic-maples', 'refo-nordic-oaks',
@@ -174,11 +176,13 @@ function addToggleOne() {
     var satellite = document.getElementById('satellite');
 
     trail.addEventListener('click', function() {
-        map.setStyle(mapStyles[0])
+        map.setStyle(mapStyles[0]);
+        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ]);
     });
 
     satellite.addEventListener('click', function() {
-        map.setStyle(mapStyles[1])
+        map.setStyle(mapStyles[1]);
+        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ]);
     });
 }
 
@@ -188,11 +192,13 @@ function addToggleTwo() {
     var barkButton = document.getElementById('bark');
     refoButton.addEventListener('click', function() {
         map.setCenter(centers["Reforestation Camp"]);
-        map.setZoom(14)
+        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
+        map.setZoom(14);
     });
 
     barkButton.addEventListener('click', function() {
-        map.setCenter(centers["Barkhausen"])
+        map.setCenter(centers["Barkhausen"]);
+        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
     });
 }
 
@@ -209,12 +215,14 @@ function addToggleThree() {
 
     nordicButton.addEventListener('click', function() {
         changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'visible');
-        changeLayersVisiblity(refo_mtb_layerList, 'none')
+        changeLayersVisiblity(refo_mtb_layerList, 'none');
+        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
     });
 
     mtbButton.addEventListener('click', function() {
         changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'none');
         changeLayersVisiblity(refo_mtb_layerList, 'visible')
+        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
     });
 }
 
@@ -240,6 +248,19 @@ function initMap() {
             map.addLayer(layer, 'waterway-label')
         });
 
+        map.addLayer({
+            id:'selected-route', 
+            source: 'trails',
+            "source-layer": "reforestation-camp-trails",
+            type: 'line',
+            paint: {
+                'line-width' : 10,
+                'line-opacity': 0.7,
+                'line-color' : 'white'
+            },
+            "filter": ["all", ["==","$type","LineString"], ["==","id","0"] ]
+        }, "refo-features-poly")
+
         //Add togle event listeners
         addToggleOne();
         addToggleTwo();
@@ -258,7 +279,7 @@ function initMap() {
             }
 
             var feature = features[0];
-            var id = feature.properties.id
+            name = feature.properties.name
 
             popup.setLngLat(map.unproject(e.point))
                 .setHTML('<li> Trail: ' + feature.properties.name + '</li>' +
@@ -270,11 +291,12 @@ function initMap() {
                 var features = map.queryRenderedFeatures(e.point, { layers: layerList });
                 getElev(features[0])*/
                 map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-
                 if (!features.length) {
                     popup.remove();
                     return;
-                }
+                };
+                console.log(feature)
+                map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", name] ])
             });
 
             geolocate.on('geolocate', function(e) {
