@@ -271,8 +271,8 @@ function initMap() {
         //Add geolocate control
 
         map.on('mousemove', function(e) {
-            let minpoint = new Array(e.point['x'] - 2, e.point['y'] - 2)
-            let maxpoint = new Array(e.point['x'] + 2, e.point['y'] + 2)
+            var minpoint = new Array(e.point['x'] - 2, e.point['y'] - 2)
+            var maxpoint = new Array(e.point['x'] + 2, e.point['y'] + 2)
             var features = map.queryRenderedFeatures([minpoint, maxpoint], { layers: mouseoverList });
 
             map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
