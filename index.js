@@ -15,14 +15,18 @@ var name = "0"
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
 var refo_nordic_layerList = ['refo-nordic-nightski', 'refo-nordic-maples', 'refo-nordic-oaks',
-    'refo-nordic-birches', 'refo-nordic-labels', 'refo-features-label', 'refo-boundary-poly', 'refo-features-poly'
-];
+    'refo-nordic-birches', 'refo-nordic-labels'];
 
-var refo_mtb_layerList = ['refo-mtb-greenloop', 'refo-mtb-labels', 'refo-features-label', 'refo-mtb-snowbike', 'refo-boundary-poly', 'refo-features-poly']
+var base_layerlist = ['refo-features-label', 'refo-features-poly', 'refo-boundary-poly', 'bark-features-label', 
+                      'bark-features-poly', 'bark-ponds-poly']
 
-var barkhausen_nordic_layerList = ['bark-features-label', 'bark-nordic-labels', 'bark-nordic-shores',
-    'bark-features-poly', 'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek', 'bark-ponds-poly'
-]
+var refo_mtb_layerList = ['refo-mtb-greenloop', 'refo-mtb-labels', 'refo-mtb-snowbike'];
+
+var barkhausen_nordic_layerList = ['bark-nordic-labels', 'bark-nordic-shores', 
+                                   'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek'];
+
+var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList).concat(base_layerlist);
+var mouseoverList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList);
 
 var style_layers = []; //list of layers in trail map to add to style
 
@@ -35,8 +39,6 @@ mapboxgl.util.getJSON('/json/layer_styles.json', function(err, resp) {
     });
     initMap();
 });
-
-var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList);
 
 var current = 1
 
@@ -53,7 +55,7 @@ var userLocation = {
 }
 
 var centers = {
-    'Barkhausen': [-88.0345, 44.5985],
+    'Barkhausen': [-88.0345, 44.5965],
     'Reforestation Camp': [-88.0813, 44.6667]
 }
 
@@ -269,7 +271,9 @@ function initMap() {
         //Add geolocate control
 
         map.on('mousemove', function(e) {
-            var features = map.queryRenderedFeatures(e.point, { layers: layerList });
+            let minpoint = new Array(e.point['x'] - 2, e.point['y'] - 2)
+            let maxpoint = new Array(e.point['x'] + 2, e.point['y'] + 2)
+            var features = map.queryRenderedFeatures([minpoint, maxpoint], { layers: mouseoverList });
 
             map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
@@ -279,24 +283,22 @@ function initMap() {
             }
 
             var feature = features[0];
-            name = feature.properties.name
-
             popup.setLngLat(map.unproject(e.point))
                 .setHTML('<li> Trail: ' + feature.properties.name + '</li>' +
-                    '<li> Distance: ' + feature.properties.distance + '</li>')
+                    '<li> Distance: ' + feature.properties.distance + ' mi </li>')
                 .addTo(map);
 
             map.on('click', function(e) {
                 /*var getElev = require('./js/elevation-query');
                 var features = map.queryRenderedFeatures(e.point, { layers: layerList });
                 getElev(features[0])*/
-                map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-                if (!features.length) {
-                    popup.remove();
-                    return;
-                };
-                console.log(feature)
-                map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", name] ])
+                var feat_name = feature.properties.name;
+                if (!!feat_name) {
+                map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", feat_name] ])
+            }
+            else {
+                map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "-1"] ])
+            }
             });
 
             geolocate.on('geolocate', function(e) {
