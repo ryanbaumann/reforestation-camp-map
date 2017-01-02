@@ -15,15 +15,18 @@ var name = "0"
 mapboxgl.accessToken = 'pk.eyJ1IjoicnNiYXVtYW5uIiwiYSI6IjdiOWEzZGIyMGNkOGY3NWQ4ZTBhN2Y5ZGU2Mzg2NDY2In0.jycgv7qwF8MMIWt4cT0RaQ';
 
 var refo_nordic_layerList = ['refo-nordic-nightski', 'refo-nordic-maples', 'refo-nordic-oaks',
-    'refo-nordic-birches', 'refo-nordic-labels'];
+    'refo-nordic-birches', 'refo-nordic-labels'
+];
 
-var base_layerlist = ['refo-features-label', 'refo-features-poly', 'refo-boundary-poly', 'bark-features-label', 
-                      'bark-features-poly', 'bark-ponds-poly']
+var base_layerlist = ['refo-features-label', 'refo-features-poly', 'refo-boundary-poly', 'bark-features-label',
+    'bark-features-poly', 'bark-ponds-poly'
+]
 
 var refo_mtb_layerList = ['refo-mtb-greenloop', 'refo-mtb-labels', 'refo-mtb-snowbike'];
 
-var barkhausen_nordic_layerList = ['bark-nordic-labels', 'bark-nordic-shores', 
-                                   'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek'];
+var barkhausen_nordic_layerList = ['bark-nordic-labels', 'bark-nordic-shores',
+    'bark-nordic-meadowridge', 'bark-nordic-mosquitocreek'
+];
 
 var layerList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList).concat(base_layerlist);
 var mouseoverList = refo_nordic_layerList.concat(refo_mtb_layerList).concat(barkhausen_nordic_layerList);
@@ -179,12 +182,16 @@ function addToggleOne() {
 
     trail.addEventListener('click', function() {
         map.setStyle(mapStyles[0]);
-        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ]);
+        map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+            ["==", "name", "0"]
+        ]);
     });
 
     satellite.addEventListener('click', function() {
         map.setStyle(mapStyles[1]);
-        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ]);
+        map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+            ["==", "name", "0"]
+        ]);
     });
 }
 
@@ -194,13 +201,17 @@ function addToggleTwo() {
     var barkButton = document.getElementById('bark');
     refoButton.addEventListener('click', function() {
         map.setCenter(centers["Reforestation Camp"]);
-        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
+        map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+            ["==", "name", "0"]
+        ])
         map.setZoom(14);
     });
 
     barkButton.addEventListener('click', function() {
         map.setCenter(centers["Barkhausen"]);
-        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
+        map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+            ["==", "name", "0"]
+        ])
     });
 }
 
@@ -218,13 +229,17 @@ function addToggleThree() {
     nordicButton.addEventListener('click', function() {
         changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'visible');
         changeLayersVisiblity(refo_mtb_layerList, 'none');
-        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
+        map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+            ["==", "name", "0"]
+        ])
     });
 
     mtbButton.addEventListener('click', function() {
         changeLayersVisiblity(barkhausen_nordic_layerList.concat(refo_nordic_layerList), 'none');
         changeLayersVisiblity(refo_mtb_layerList, 'visible')
-        map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "0"] ])
+        map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+            ["==", "name", "0"]
+        ])
     });
 }
 
@@ -251,16 +266,18 @@ function initMap() {
         });
 
         map.addLayer({
-            id:'selected-route', 
+            id: 'selected-route',
             source: 'trails',
             "source-layer": "reforestation-camp-trails",
             type: 'line',
             paint: {
-                'line-width' : 10,
+                'line-width': 10,
                 'line-opacity': 0.7,
-                'line-color' : 'white'
+                'line-color': 'white'
             },
-            "filter": ["all", ["==","$type","LineString"], ["==","id","0"] ]
+            "filter": ["all", ["==", "$type", "LineString"],
+                ["==", "id", "0"]
+            ]
         }, "refo-features-poly")
 
         //Add togle event listeners
@@ -294,11 +311,14 @@ function initMap() {
                 getElev(features[0])*/
                 var feat_name = feature.properties.name;
                 if (!!feat_name) {
-                map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", feat_name] ])
-            }
-            else {
-                map.setFilter('selected-route', ["all", ["==","$type","LineString"], ["==","name", "-1"] ])
-            }
+                    map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+                        ["==", "name", feat_name]
+                    ])
+                } else {
+                    map.setFilter('selected-route', ["all", ["==", "$type", "LineString"],
+                        ["==", "name", "-1"]
+                    ])
+                }
             });
 
             geolocate.on('geolocate', function(e) {
