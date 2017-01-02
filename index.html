@@ -34,8 +34,8 @@
 </head>
 
 <body>
-    <div id='map'>
-    </div>
+    <div id='map'></div>
+    <div id='loading' class='loading'></div>
     <div id='sidebar'>
         <div id='title' class='session'>
             <h2>Brown County Trails</h2>
@@ -69,11 +69,11 @@
         <div id="mapToggleContainer" class="pad2 center">
             <h2> Background </h2>
             <div class='rounded-toggle inline fill-cyan' style="color: black;" id='mapToggle'>
-                <input id="0" type="radio" name="toggle" value="Map" checked>
-                <label for="0">
+                <input type="radio" name="toggle" value="trail" id="trail" checked>
+                <label for="trail">
                     <h5>Trail</h5></label>
-                <input id="1" type="radio" name="toggle" value="Satellite">
-                <label for="1">
+                <input type="radio" name="toggle" value="Satellite" id="satellite">
+                <label for="satellite">
                     <h5>Satellite</h5></label>
             </div>
         </div>
